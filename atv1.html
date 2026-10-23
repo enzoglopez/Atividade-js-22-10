@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atividade 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-slate-100 flex items-center justify-center h-screen flex-wrap p-6"
+  >
+    <div class="flex gap-8 flex-wrap" id="mainDiv"></div>
+    <script>
+      function Card(usuario) {
+        return `
+        <div class="w-[280px] h-fit bg-blue-100 shadow-lg flex flex-col p-4 rounded-lg border-black/25 border hover:bg-blue-200 hover:animate-pulse active:bg-blue-300">
+        <h1 class="font-bold select-none">Nome</h1>
+        <p class="select-none text-balance">${usuario.firstName} ${usuario.lastName}</p>
+        <p class="font-bold select-none">Email</p>
+        <p class="select-none truncate">${usuario.email}</p>
+        <p class="font-bold select-none">Endereço</p>
+        <p class="select-none">${usuario.address.city}</p>
+        <p class="font-bold select-none">Companhia</p>
+        <p class="select-none">${usuario.company.name}</p>
+    </div>`;
+      }
+      async function getUsuario() {
+        const request = await fetch("https://dummyjson.com/users");
+        const response = await request.json();
+        const usuarios = response.users;
+
+        const div = document.getElementById("mainDiv");
+
+        usuarios.forEach((usuario) => {
+          const cardHtml = Card(usuario);
+          div.innerHTML += cardHtml;
+        });
+      }
+
+      getUsuario();
+    </script>
+  </body>
+</html>

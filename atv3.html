@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>atividade 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-start p-6 gap-6">
+    <div class="bg-white p-6 rounded-md w-1/2 flex flex-col gap-4">
+        <h1 class="font-bold text-xl">Cadastro de Aluno</h1>
+
+        <form id="formCadastro" class="flex flex-col gap-3">
+            <div class="flex flex-col gap-1">
+                <label for="nome" class="text-sm font-semibold text-slate-700">Nome:</label>
+                <input type="text" id="nome" name="nome" required class="p-2 border border-slate-300 rounded-md outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label for="email" class="text-sm font-semibold text-slate-700">E-mail:</label>
+                <input type="email" id="email" name="email" required class="p-2 border border-slate-300 rounded-md outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label for="idade" class="text-sm font-semibold text-slate-700">Idade (1 a 120):</label>
+                <input type="number" id="idade" name="idade" min="1" max="120" required class="p-2 border border-slate-300 rounded-md outline-none focus:border-blue-500">
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label for="curso" class="text-sm font-semibold text-slate-700">Curso:</label>
+                <select id="curso" name="curso" required class="p-2 border border-slate-300 rounded-md outline-none focus:border-blue-500 bg-white">
+                    <option value="" disabled selected>Selecione um curso</option>
+                    <option value="Sistemas de Informação">Sistemas de Informação</option>
+                    <option value="Ciência da Computação">Ciência da Computação</option>
+                    <option value="Engenharia de Software">Engenharia de Software</option>
+                </select>
+            </div>
+
+            <button type="submit" class="mt-2 bg-blue-600 text-white p-2 font-semibold hover:bg-blue-700 rounded-md">Cadastrar</button>
+        </form>
+    </div>
+
+    <div class="w-full max-w-lg flex flex-col gap-2">
+        <h2 class="font-bold text-lg">Dados em JSON:</h2>
+        <pre id="json" class="bg-slate-200 p-4 rounded-md overflow-x-auto text-sm border border-slate-300"></pre>
+    </div>
+
+    <div class="w-full max-w-lg flex flex-col gap-2">
+        <h2 class="font-bold text-lg">Lista de Cadastrados:</h2>
+        <table class="w-full border-collapse border border-slate-300 bg-white shadow-sm rounded-md overflow-hidden">
+            <thead>
+                <tr class="bg-slate-200 text-slate-700 text-left">
+                    <th class="border border-slate-300 p-2">Nome</th>
+                    <th class="border border-slate-300 p-2">E-mail</th>
+                    <th class="border border-slate-300 p-2">Idade</th>
+                    <th class="border border-slate-300 p-2">Curso</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const formulario = document.getElementById("formCadastro");
+        const divJson = document.getElementById("json");
+        const tabelaBody = document.getElementById("tabelaBody");
+
+        formulario.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(formulario);
+            const objeto = {};
+
+            for (const [chave, valor] of formData.entries()) {
+                objeto[chave] = valor;
+            }
+
+            divJson.textContent = JSON.stringify(objeto, null, 2);
+
+            const novaLinha = document.createElement("tr");
+            novaLinha.innerHTML = `
+                <td class="border border-slate-300 p-2">${objeto.nome}</td>
+                <td class="border border-slate-300 p-2">${objeto.email}</td>
+                <td class="border border-slate-300 p-2">${objeto.idade}</td>
+                <td class="border border-slate-300 p-2">${objeto.curso}</td>
+            `;
+            tabelaBody.appendChild(novaLinha);
+
+            formulario.reset();
+        });
+    </script>
+</body>
+</html>

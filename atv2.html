@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>atividade 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-slate-100 flex items-center justify-center h-screen flex flex-col flex-wrap p-6"
+  >
+    <div class="flex flex-col gap-4">
+      <h1 class="self-start font-bold text-lg">Busque o seu post pelo Id!</h1>
+      <input id="inputPostId" class="w-auto h-8 p-2 border-2 border-black/25 rounded-md" type="number" />
+      <button id="botaoSubmit" class="font-semibold bg-green-300 h-10 rounded-md">Buscar</button>
+      <div id="divPost"></div>
+    </div>
+
+    <script>
+    function CardPost(post) {
+        return `
+        <div class="w-[420px] h-fit bg-purple-100 shadow-lg flex flex-col p-4 rounded-lg border-black/25 border">
+        <h1 class="font-bold text-lg select-none">${post.title}</h1>
+        <p class="select-none">${post.body}</p>
+    </div>`;
+      }
+      async function getPost(id) {
+        if (!id) return alert("Digite um número")
+
+        const request = await fetch(`https://dummyjson.com/posts/${id}`);
+        const response = await request.json();
+
+        if (!response) return alert("Id Inválido");
+
+        let div = document.getElementById("divPost");
+        const post = CardPost(response);
+
+        div.innerHTML = CardPost(response);
+      }
+    const botao = document.getElementById("botaoSubmit");
+    const input = document.getElementById("inputPostId");
+    botao.addEventListener("click", () => { getPost(input.value)})
+    </script>
+  </body>
+</html>
